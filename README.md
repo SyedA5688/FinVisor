@@ -6,7 +6,7 @@ hackathon, after which Syed continued working on the web app version of
 the program.
 
 The aim of this app is to make people more aware of their financial standing
-by giving users a convinient place to input expenses and income.
+by giving users a convenient place to input expenses and income.
 
 This application was made using Python, Flask, HTML, CSS, and SQLAlchemy.
 
