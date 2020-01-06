@@ -1,0 +1,94 @@
+{% extends "layout.html" %}
+{% block head %}
+    <title>FinVisor - Home</title>
+{% endblock head %}
+
+{% block content %}
+    <h1>Account Home</h1>
+    <h2 class='text-danger mb-2'>Expenses for {{ current_user.username }}</h2>
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Date</th>
+                <th scope="col">Title</th>
+                <th scope="col">Amount</th>
+            </tr>
+        </thead>
+        <!-- Example Expense.query.all() from database: [Expense('12/28/2019', '45'), Expense('Jan 1, 2020', '5')]  -->
+        <tbody>
+            {% for expense in expenses.items %}
+                <tr>
+                    {% if expense.spender == current_user %}
+                        <th scope="row">{{ loop.index }}</th>
+                        <td>{{ expense.date_of_expense.strftime('%Y-%m-%d') }}</td>
+                        <td>{{ expense.title }}</td>
+                        <td>
+                            ${{ expense.amount }} 
+                            <span class='ml-3'><a href="{{ url_for('expenses.edit_expense', expense_id=expense.id) }}">Edit</a></span>
+                            <form action="{{ url_for('expenses.delete_expense', expense_id=expense.id) }}" method="POST" class="d-inline-block">
+                                <input class="btn btn-danger btn-sm ml-3" type="submit" value="Delete">
+                            </form>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!-- If user is logged in, show paginate links, else error -->
+    {% if expenses %}
+        {% for expense_num in expenses.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+            {% if expense_num %}
+                {% if expenses.page == expense_num %}    
+                    <a class="btn btn-info mb-2" href="{{ url_for('main.home', page=expense_num) }}">{{ expense_num }}</a>
+                {% else %}
+                    <a class="btn btn-outline-info mb-2" href="{{ url_for('main.home', page=expense_num) }}">{{ expense_num }}</a>
+                {% endif %}
+            {% else %}
+                ...
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    
+    <h2 class='text-success mb-2'>Income for {{ current_user.username }}</h2>
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Date</th>
+                <th scope="col">Title</th>
+                <th scope="col">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in income %}
+                <tr>
+                    {% if i.saver == current_user %}
+                        <th scope="row">{{ loop.index }}</th>
+                        <td>{{ i.date_of_income.strftime('%Y-%m-%d') }}</td>
+                        <td>{{ i.title }}</td>
+                        <td>
+                            ${{ i.amount }}
+                            <span class='ml-3'><a href="{{ url_for('incomes.edit_income', income_id=i.id) }}">Edit</a></span>
+                            <form action="{{ url_for('incomes.delete_income', income_id=i.id) }}" method="POST" class="d-inline-block">
+                                <input class="btn btn-danger btn-sm ml-3" type="submit" value="Delete">
+                            </form>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock content %}
+
+{% block sidebox %}
+    <h2>Status</h2>
+    <p>Display information on financial status here.</p>
+    <ul class='list-group'>
+        <li class='list-group-item'>Total Income: ${{ incsum }}</li>
+        <li class='list-group-item'>Total Expenses: ${{ expsum }}</li>
+        <li class='list-group-item'>Number of Expenses: {{ explen }}</li>
+        <li class='list-group-item'>Overall Balance: ${{ incsum-expsum }}</li>
+    </ul>
+{% endblock sidebox %}

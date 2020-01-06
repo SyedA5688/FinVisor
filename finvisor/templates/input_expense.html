@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+{% block head %}
+    <title>FinVisor - Input Expense</title>
+{% endblock head %}
+
+{% block content %}
+    <div class='content-section'>
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class='form-group'>
+                <legend class='border-bottom mb-4'>{{ legend }}</legend>
+                <div class='form-group'>
+                    {{ form.date.label(class="form-control-label") }}
+                    {% if form.date.errors %}
+                        {{ form.date(class="form-control form-control-lg is-invalid") }}
+                        <div class='invalid-feedback'>
+                            {% for error in form.date.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.date(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class='form-group'>
+                    {{ form.title.label(class="form-control-label") }}
+                    {% if form.title.errors %}
+                        {{ form.title(class="form-control form-control-lg is-invalid") }}
+                        <div class='invalid-feedback'>
+                            {% for error in form.title.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.title(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class='form-group'>
+                    {{ form.amount.label(class="form-control-label") }}
+                    {% if form.amount.errors %}
+                        {{ form.amount(class="form-control form-control-lg is-invalid") }}
+                        <div class='invalid-feedback'>
+                            {% for error in form.amount.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.amount(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class='form-group'>
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+    </div>
+{% endblock content %}
+
+{% block sidebox %}
+    <h2>Inputing Expenses</h2>
+    <p>Tips:</p>
+    <ul class='list-group'>
+        <li class='list-group-item'>Enter date in the format: Year-Month-Day</li>
+        <li class='list-group-item'>Enter monetary amount as a plain number.</li>
+        <li class='list-group-item'>If left blank, the current time will be saved 
+                                    for the inputed expense.</li>
+        <li class='list-group-item text-danger'>Warning: If editing an expense, do not leave date field blank.</li>
+    </ul>
+{% endblock sidebox %}

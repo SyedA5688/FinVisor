@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block head %}
+    <title>FinVisor - About</title>
+{% endblock head %}
+
+{% block content %}
+    <h1>About Page</h1>
+    <p class='lead'>
+        The FinVisor web app is a financial awareness tool created by Syed Rizvi.
+        The idea originally started with a group of four programmers at the HackTX 2019
+        hackathon, after which Syed continued working on the web app version of
+        the program.
+    </p>
+    <p class='lead'>
+        The aim of this app is to make people more aware of their financial standing
+        by giving them a convinient place to input expenses and income. Future plans
+        for the app include creating a system of financial advising on the app, to 
+        give users further guidance and help them make more informed financial decisions.
+    </p>
+    <img class="rounded mx-auto d-block mb-5" src="{{ author_pic }}">
+{% endblock content %}
+
+{% block sidebox %}
+    <h2>Information</h2>
+    <p>Languages used:</p>
+    <ul class='list-group'>
+        <li class='list-group-item'>Python, Flask</li>
+        <li class='list-group-item'>HTML, CSS</li>
+    </ul>
+{% endblock sidebox %}
